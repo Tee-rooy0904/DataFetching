@@ -1,21 +1,19 @@
 import React, { createContext, ReactNode, useState } from "react";
-import { Post, User } from "../types/types";
+import { Products } from "../types/types";
 
 interface DataContextType {
-  posts: Post[];
-  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
-  users: User[];
-  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+  products: Products[];
+  setProducts: React.Dispatch<React.SetStateAction<Products[]>>;
 }
 
 export const DataContext = createContext<DataContextType>({} as DataContextType);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [products, setProducts] = useState<Products[]>([]);
+  
 
   return (
-    <DataContext.Provider value={{ posts, setPosts, users, setUsers }}>
+    <DataContext.Provider value={{ products, setProducts }}>
       {children}
     </DataContext.Provider>
   );

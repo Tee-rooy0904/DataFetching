@@ -1,13 +1,11 @@
-// src/types/types.ts
-export interface Post {
-  userId: number;
+export interface Products {
   id: number;
   title: string;
-  body: string;
+  description: string;
+  category: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+
 }
 
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}

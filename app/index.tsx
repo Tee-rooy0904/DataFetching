@@ -1,37 +1,28 @@
-import PostsList from "@/components/PostsList";
-import { DataContext, DataProvider } from "@/context/DataContext";
-import { Post, User } from "@/types/types";
-import axios from "axios";
+import { Products } from "@/types/types";
 import React, { useContext, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import { DataContext, DataProvider } from "../context/DataContext";
 const AppContent: React.FC = () => {
-  const { setPosts, setUsers } = useContext(DataContext);
+  const { setProducts } = useContext(DataContext);
 
-  const fetchPosts = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const data: Post[] = await response.json();
-    setPosts(data.slice(0, 5));
+  const fetchProducts = async () => {
+    const response = await fetch("https://dummyjson.com/products");
+    const json = await response.json();
+    const products: Products[] = json.products || [];
+    setProducts(products.slice(0, 5));
   };
 
-  const fetchUsers = async () => {
-    const response = await axios.get<User[]>("https://jsonplaceholder.typicode.com/users");
-    setUsers(response.data.slice(0, 5));
-  };
 
   useEffect(() => {
-    fetchPosts();
-    fetchUsers();
+    fetchProducts();
   }, []);
 
   const handleReload = () => {
-    fetchPosts();
-    fetchUsers();
+    fetchProducts();
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <PostsList />
       <View style={styles.buttonWrapper}>
         <TouchableOpacity style={styles.customButton} onPress={handleReload}>
           <Text style={styles.buttonText}>Reload Data</Text>
