@@ -1,44 +1,50 @@
 import React, { useContext } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList, StyleSheet, Text, View, Image, Pressable, TextInput
+
+} from "react-native";
 import { DataContext } from "../context/DataContext";
-import { Post, User } from "../types/types";
+import { Products } from "../types/types";
 
 export default function PostsList() {
-  const { posts, users } = useContext(DataContext);
+  const { products } = useContext(DataContext);
 
-  const renderPost = ({ item, index }: { item: Post; index: number }) => (
+  const renderPost = ({ item, index }: { item: Products; index: number }) => (
+
+
     <View style={styles.card}>
-      <Text style={styles.title}>
-        {index + 1}. {item.title}
+      
+
+
+
+      <Image
+        source={{ uri: item.thumbnail }}
+        style={{ width: '100%', height: 400 }}
+        resizeMode="cover"
+      />
+
+      <Text style={{ textAlign: 'center', fontSize: 30, fontWeight: 'bold' }}>
+        {item.title}
       </Text>
-      <Text>{item.body}</Text>
+      <Text>Price: ${item.price}</Text>
+      <Text>Description: {item.description}</Text>
+      <Pressable style={{ backgroundColor: 'green', height: 30, borderRadius: 10 }}>
+        <Text style={{ textAlign: 'center', fontSize: 15, fontWeight: 'bold', color: 'white' }}>Add to Cart</Text>
+      </Pressable>
     </View>
   );
 
-  const renderUser = ({ item, index }: { item: User; index: number }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>
-        {index + 1}. {item.name}
-      </Text>
-      <Text>{item.email}</Text>
-    </View>
-  );
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Posts (Fetch API)</Text>
       <FlatList
-        data={posts}
+        data={products}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderPost}
       />
 
-      <Text style={styles.header}>Users (Axios)</Text>
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderUser}
-      />
     </View>
   );
 }
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f1f1",
     borderRadius: 5,
   },
-  title: { 
+  title: {
     fontWeight: "bold"
-},
+  },
 });
